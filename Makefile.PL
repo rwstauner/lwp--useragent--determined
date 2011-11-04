@@ -9,6 +9,22 @@
 require 5.004;
 use strict;
 use ExtUtils::MakeMaker;
+use File::Spec ();
+
+{
+  my $net_tests = prompt(
+    "Would you like to run actual network tests?\n" .
+    "They take a long time and may hang indefinitely (y/n):",
+    'n'
+  );
+  my $file = File::Spec->catfile(qw(t .net_tests));
+  if( $net_tests =~ /^y/i ){
+    open(my $fh, '>', $file); # touch
+  }
+  else {
+    unlink $file if -e $file;
+  }
+}
 
 WriteMakefile(
     'NAME'	    => 'LWP::UserAgent::Determined',

@@ -2,7 +2,17 @@
 # Time-stamp: "0";
 use strict;
 use Test;
-BEGIN { plan tests => 13 }
+use File::Spec ();
+BEGIN {
+  if( -e File::Spec->catfile(qw(t .net_tests)) ){
+    plan tests => 13;
+  }
+  else {
+    plan tests => 1;
+    skip 'Network tests not configured to run', 1;
+    exit;
+  }
+}
 
 #use LWP::Debug ('+');
 
